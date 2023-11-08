@@ -29,6 +29,9 @@ services:
       - DEFAULT_DOWNLOADS=10      
       - MAX_DOWNLOADS=10 # Maximum number of downloads (defaults to 100)
       - MAX_FILE_SIZE=2684354560 # Maximum upload file size in bytes (defaults to 2147483648 aka 2GB)
+      # If the next env variables are both set to 'false', the light/dark mode is based on a site visitor's preference
+      - FORCE_DARK_MODE=false # can be set to true in order to force dark mode only
+      - FORCE_LIGHT_MODE=false # can be set to true in order to force light mode only
       # ----------------------------------------------------------------------------------
       # Custom Branding; see https://github.com/timvisee/send/blob/master/server/config.js
       # ----------------------------------------------------------------------------------
