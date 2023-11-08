@@ -6,6 +6,11 @@ services:
     image: l4rm4nd/send:latest
     container_name: send-app
     restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - 1234:1234
     expose:
