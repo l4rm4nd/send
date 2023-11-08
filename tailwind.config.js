@@ -31,7 +31,7 @@ module.exports = {
       md: '768px',
       lg: '992px',
       xl: '1200px',
-      dark: { raw: '(prefers-color-scheme: dark)' }
+      dark: { raw: '(prefers-color-scheme: dark), (prefers-color-scheme: no-preference), (prefers-color-scheme: light)' } // Always active dark mode
     },
     fontFamily: {
       sans: [
