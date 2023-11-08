@@ -1,19 +1,80 @@
 version: "3"
+
 services:
-  web:
-    build: .
-    links:
-      - redis
+
+  send:
+    image: l4rm4nd/send:latest
+    container_name: send-app
+    restart: unless-stopped
     ports:
-      - "1443:1443"
+      - 1234:1234
+    expose:
+      - 1234
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/send/uploads:/uploads
+      #- ./logo.png:/app/dist/mylogo.png:ro # pass custom logo into the container
     environment:
+      - NODE_ENV=production # default is development
+      - DETECT_BASE_URL=true
+      #- BASE_URL=https://send.example.com # optional; if used then protocol handler (http/https) is mandatory
+      - PORT=1234
       - REDIS_HOST=redis
+      # For local uploads storage
+      - FILE_DIR=/uploads
+      # To customize upload limits
+      - EXPIRE_TIMES_SECONDS=3600,86400,604800,2592000,31536000 # Expire time options to show in UI dropdown, e.g. 3600,86400,604800,2592000,31536000
+      - DEFAULT_EXPIRE_SECONDS=604800 # Default expire time in UI (defaults to 86400)
+      - MAX_EXPIRE_SECONDS=31536000 # Maximum upload expiry time in seconds (defaults to 604800 aka 7 days)
+      - DOWNLOAD_COUNTS=1,2,5,10,50 # Download limit options to show in UI dropdown, e.g. 10,1,2,5,10,15,25,50,100,1000
+      - DEFAULT_DOWNLOADS=10      
+      - MAX_DOWNLOADS=10 # Maximum number of downloads (defaults to 100)
+      - MAX_FILE_SIZE=2684354560 # Maximum upload file size in bytes (defaults to 2147483648 aka 2GB)
+      # ----------------------------------------------------------------------------------
+      # Custom Branding; see https://github.com/timvisee/send/blob/master/server/config.js
+      # ----------------------------------------------------------------------------------
+      #- CUSTOM_TITLE=Send
+      #- CUSTOM_DESCRIPTION=Encrypt and send files with a link that automatically expires to ensure your important documents don’t stay online forever.
+      #- CUSTOM_FOOTER_TEXT=
+      #- CUSTOM_FOOTER_URL=
+      #- CUSTOM_LOCALE=
+      #- UI_CUSTOM_ASSETS_ANDROID_CHROME_192PX=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_ANDROID_CHROME_512PX=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_APPLE_TOUCH_ICON=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_FAVICON_16PX=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_FAVICON_32PX=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_ICON=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_SAFARI_PINNED_TAB=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_FACEBOOK=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_TWITTER=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_ASSETS_WORDMARK=mylogo.png # use a custom logo; if NODE_ENV=production you must use an internal image; otherwise any http(s) url works too
+      #- UI_CUSTOM_CSS=
+      #- UI_COLOR_PRIMARY=0a84ff
+      #- UI_COLOR_ACCENT=003eaa
+      #- SEND_FOOTER_CLI_URL=https://github.com/timvisee/ffsend
+      #- SEND_FOOTER_DMCA_URL=
+      #- SEND_FOOTER_SOURCE_URL=https://github.com/timvisee/send
+      # ----------------------------------------------------------------------------------
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.send.rule=Host(`send.example.com`)
+    #  - traefik.http.services.send.loadbalancer.server.port=1234
+    #  - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=5000000000 # optional, only necessary for file uploads; allow 5GB
+    #  - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=5000000000 # optional, only necessary for file uploads; allow 5GB
+    #  - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=5000000000 # optional, only necessary for file uploads; allow 5GB
+    #  - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=5000000000 # optional, only necessary for file uploads; allow 5GB
+
   redis:
     image: redis:alpine
-  selenium-firefox:
-    image: b4handjr/selenium-firefox
-    ports:
-      - "${VNC_PORT:-5900}:5900"
-    shm_size: 2g
+    container_name: send-redis
+    restart: unless-stopped
     volumes:
-      - .:/code
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/send/redis:/data
+    #networks:
+    #  - proxy
+
+#networks:
+#  proxy:
+#    external: true
