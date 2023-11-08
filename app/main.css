@@ -269,7 +269,7 @@ select {
   body {
     @apply text-grey-10;
 
-    background-image: unset;
+    background-image: url('../assets/dark-wallpaper.svg');
   }
 
   .btn {
