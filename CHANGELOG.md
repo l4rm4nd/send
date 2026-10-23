@@ -1,3 +1,10 @@
+## [3.4.30](https://gitlab.com/timvisee/send/compare/v3.4.29...v3.4.30) (2026-10-23)
+
+
+### Bug Fixes
+
+* add grype! ([d8c875f](https://gitlab.com/timvisee/send/commit/d8c875ff8bd8cbae956680a1cf99b967f3a9a783))
+
 ## [3.4.29](https://gitlab.com/timvisee/send/compare/v3.4.28...v3.4.29) (2026-10-23)
 
 
