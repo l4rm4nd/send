@@ -31,7 +31,11 @@ class FSStorage {
         fstream.destroy(err);
       });
       fstream.on('error', err => {
-        fs.unlinkSync(filepath);
+        try {
+          fs.unlinkSync(filepath);
+        } catch (e) {
+          // file may not exist if opening it failed
+        }
         reject(err);
       });
       fstream.on('finish', resolve);

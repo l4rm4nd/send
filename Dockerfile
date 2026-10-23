@@ -5,7 +5,7 @@
 ##
 
 # Build project
-FROM node:16.13-alpine3.13 AS builder
+FROM node:24-alpine AS builder
 
 RUN set -x \
   # Change node uid/gid
@@ -31,10 +31,11 @@ WORKDIR /app
 RUN set -x \
     # Build
     && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci \
-    && npm run build
+    # webpack 4 requires the legacy OpenSSL provider on Node 17+
+    && NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 # Main image
-FROM node:16.13-alpine3.13
+FROM node:22-alpine
 
 RUN set -x \
   # Change node uid/gid
