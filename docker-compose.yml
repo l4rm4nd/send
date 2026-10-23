@@ -3,7 +3,7 @@ version: "3"
 services:
 
   send:
-    image: l4rm4nd/send:latest
+    image: ghcr.io/l4rm4nd/send:3.4.x
     container_name: send-app
     restart: unless-stopped
     read_only: true
