@@ -35,7 +35,7 @@ RUN set -x \
     && NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 # Main image
-FROM node:22-alpine
+FROM node:24-alpine
 
 RUN set -x \
   # Change node uid/gid
