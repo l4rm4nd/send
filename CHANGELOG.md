@@ -1,4 +1,11 @@
-## 3.4.28 (2026-10-23)
+## [3.4.29](https://gitlab.com/timvisee/send/compare/v3.4.28...v3.4.29) (2026-10-23)
+
+
+### Bug Fixes
+
+* remove grype ([6b7ba3e](https://gitlab.com/timvisee/send/commit/6b7ba3ea894a9e0c2cd9f38b6a13cba58328a64d))
+
+## [3.4.28](https://gitlab.com/timvisee/send/compare/21cb8f6608e913a5e9c63567a6943907d78c1b72...v3.4.28) (2026-10-23)
 
 
 ### Bug Fixes
