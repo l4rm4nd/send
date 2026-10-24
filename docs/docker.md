@@ -1,21 +1,19 @@
 ## Docker Quickstart
 
-Use `registry.gitlab.com/timvisee/send:latest` from [`timvisee/send`'s Gitlab image registry](https://gitlab.com/timvisee/send/container_registry) for the latest Docker image.
-
 ```bash
-docker pull registry.gitlab.com/timvisee/send:latest
+docker pull ghcr.io/l4rm4nd/send:latest
 
 # example quickstart (point REDIS_HOST to an already-running redis server)
 docker run -v $PWD/uploads:/uploads -p 1443:1443 \
     -e 'DETECT_BASE_URL=true' \
     -e 'REDIS_HOST=localhost' \
     -e 'FILE_DIR=/uploads' \
-    registry.gitlab.com/timvisee/send:latest
+    ghcr.io/l4rm4nd/send:latest
 ```
 
 Or clone this repo and run `docker build -t send:latest .` to build an image locally.
 
-*Note: for Docker Compose, see: https://github.com/timvisee/send-docker-compose*
+*Note: for Docker Compose, see: [https://github.com/l4rm4nd/send/docker-compose.yml](https://github.com/l4rm4nd/send/blob/master/docker-compose.yml)
 
 ## Environment Variables
 
@@ -53,7 +51,7 @@ Configure the limits for uploads and downloads. Long expiration times are risky 
 | `DEFAULT_DOWNLOADS` | Default download limit in UI (defaults to `1`)
 | `DEFAULT_EXPIRE_SECONDS` | Default expire time in UI (defaults to `86400`)
 
-*Note: more options can be found here: https://github.com/timvisee/send/blob/master/server/config.js*
+*Note: more options can be found here: https://github.com/l4rm4nd/send/blob/master/server/config.js*
 
 #### Storage Backend Options
 
@@ -114,7 +112,7 @@ $ docker run -p 1443:1443 \
   -e 'SENTRY_CLIENT=https://51e23d7263e348a7a3b90a5357c61cb2@sentry.prod.mozaws.net/168' \
   -e 'SENTRY_DSN=https://51e23d7263e348a7a3b90a5357c61cb2:65e23d7263e348a7a3b90a5357c61c44@sentry.prod.mozaws.net/168' \
   -e 'BASE_URL=https://send.example.com' \
-  registry.gitlab.com/timvisee/send:latest
+  ghcr.io/l4rm4nd/send:latest
 ```
 
 *Note: make sure to replace the example values above with your real values before running.*
@@ -135,7 +133,7 @@ $ docker run --net=timviseesend -v $PWD/uploads:/uploads -p 1443:1443 \
     -e 'MAX_FILE_SIZE=5368709120' \
     -e 'MAX_EXPIRE_SECONDS=2592000' \
     -e 'SEND_FOOTER_DMCA_URL=https://example.com/dmca-contact-info' \
-    registry.gitlab.com/timvisee/send:latest
+    ghcr.io/l4rm4nd/send:latest
 ```
 Then open http://localhost:1443 to view the UI. (change the `localhost` to your IP or hostname above to serve the UI to others)
 
@@ -150,11 +148,11 @@ $ docker run -p 1443:1443 \
     -e 'UI_COLOR_PRIMARY=#f00' \
     -e 'UI_COLOR_ACCENT=#a00' \
     -e 'UI_CUSTOM_ASSETS_ICON=custom_assets/logo.svg' \
-    registry.gitlab.com/timvisee/send:latest
+    ghcr.io/l4rm4nd/send:latest
 ```
 
 ## Docker Compose
 
 For a Docker compose configuration example, see:
 
-https://github.com/timvisee/send-docker-compose
+https://github.com/l4rm4nd/send/blob/master/docker-compose.yml
